@@ -20,7 +20,7 @@ while len(line) != 0:
             daegi.append(line.pop(0))
     
 #대기줄에 제일 안에 있는 사람이 제일 마지막에 나갈 수 있으면 성공
-if daegi == sorted(daegi, reverse=True):
+if daegi == sorted(daegi, reverse=True) or len(line+daegi) == 0:
     print('Nice')
 else:
     print('Sad')
