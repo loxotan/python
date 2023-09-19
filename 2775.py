@@ -3,13 +3,15 @@ input = sys.stdin.readline
 
 T = int(input())
 
-def geoju(a, b):
-    if a==0:
-        return b
-    else:
-        return sum([geoju(a-1,i) for i in range(b+1)])
+geoju = [[0]*15 for _ in range(15)]
+for i in range(15):
+    geoju[0][i] = i
+for i in range(1, 15):
+    for j in range(1, 15):
+        geoju[i][j] = sum((geoju[i-1])[:j+1])
+
 
 for _ in range(T):
     k = int(input())
     n = int(input())
-    print(geoju(k, n))
+    print(geoju[k][n])
