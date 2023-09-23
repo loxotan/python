@@ -11,17 +11,17 @@ for _ in range(m):
 
 #아직 True가 되지 못한 visited 마다 dfs 시행
 
-def dfs(v):
+def dfs(v, d):
     global visited
     visited[v] = True
     for next in range(1, n+1):
         if not visited[next] and graph[v][next]:
-            return dfs(next)
+            return dfs(next, d+1)
 
 cnt = 0
 for t in range(1, n+1):
     if not visited[t]:
-        dfs(t)
+        dfs(t, 0)
         cnt += 1
 
 print(cnt)
