@@ -17,7 +17,7 @@ def dfs(v, d):
     visited[v] = True
     for next in range(1, n+1):
         if not visited[next] and graph[v][next]:
-            return dfs(next, d+1)
+            dfs(next, d+1)
 
 cnt = 0
 for t in range(1, n+1):
