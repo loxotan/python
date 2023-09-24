@@ -1,5 +1,6 @@
 import sys
 input = sys.stdin.readline
+sys.setrecursionlimit(10000)
 
 def dfs(v, d):
     global visited
