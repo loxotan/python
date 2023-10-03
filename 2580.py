@@ -1,35 +1,48 @@
 sudoku = [list(map(int, input().split())) for _ in range(9)]
 
-zero = sum([graph[i].count(0) for i in range(9)])
+zero = sum([sudoku[i].count(0) for i in range(9)])
 
 def row():
-    if graph[i].count(0) != 1:
+    if sudoku[i].count(0) != 1:
         return
     else:
-        graph[i][j] = 81 - sum(graph[i])
+        sudoku[i][j] = 45 - sum(sudoku[i])
 
+def col():
+    temsum = 0
+    temcnt = 0
+    for k in range(9):
+        temsum += sudoku[k][j]
+        if sudoku[k][j] == 0:
+            temcnt += 1
+    if temcnt != 1:
+        return
+    else:
+        sudoku[i][j] = 45 - temsum
+        
 def box():
-    x = range(3*(i//3), 3*(i//3)+3)
-    y = range(3*(j//3), 3*(j//3)+3)
+    x = list(range(3*(i//3), 3*(i//3)+3))
+    y = list(range(3*(j//3), 3*(j//3)+3))
     temsum = 0
     temcnt = 0
     for a in x:
         for b in y:
-            temsum += graph[a][b]
-            if graph[a][b] == 0:
+            temsum += sudoku[a][b]
+            if sudoku[a][b] == 0:
                 temcnt += 1
     if temcnt != 1:
         return
     else:
-        graph[i][j] = 81 - temsum
+        sudoku[i][j] = 45 - temsum
 
 while zero != 0:
     for i in range(9):
         for j in range(9):
             if sudoku[i][j] == 0:
                 row()
+                col()
                 box()
-    zero = sum([graph[i].count(0) for i in range(9)])
+    zero = sum([sudoku[i].count(0) for i in range(9)])
 
 for k in range(9):
-    print(*graph[k])
+    print(*sudoku[k])
