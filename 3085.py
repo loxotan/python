@@ -1,10 +1,13 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import sys
 input = sys.stdin.readline
 
 n = int(input())
 arr = [list(input()) for _ in range(n)]]
 =======
+=======
+>>>>>>> 8c40a3bddbe0b4d1a1a7631360befe6b23537378
 from sys import stdin
 input = stdin.readline
 
@@ -50,5 +53,9 @@ for i in range(N):
             arr[j-1][i], arr[j][i] = arr[j][i], arr[j-1][i]
 mx = max(mx_yo, mx_xo)
 
+<<<<<<< HEAD
+print(mx)
+>>>>>>> 8c40a3bddbe0b4d1a1a7631360befe6b23537378
+=======
 print(mx)
 >>>>>>> 8c40a3bddbe0b4d1a1a7631360befe6b23537378
