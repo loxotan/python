@@ -9,6 +9,9 @@ pool = list(range(N))
 c = []
 for i in combinations(pool, N//2):
     c.append(i)
+for i in combinations(pool, N//2+1):
+    c.append(i)
+
 
 ans = 1e9
 for case in c:
