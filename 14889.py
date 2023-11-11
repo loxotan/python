@@ -10,7 +10,6 @@ c = []
 for i in combinations(pool, N//2):
     c.append(i)
 
-
 ans = 1e9
 for case in c:
     if 0 in case:
