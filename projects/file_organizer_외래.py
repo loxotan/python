@@ -39,9 +39,12 @@ def organize_folders(src_directory, dst_directory):
                             folders_to_rename.append(date_path)
 
     for folder_path in set(folders_to_rename):
-        new_folder_path = folder_path + '='
-        os.rename(folder_path, new_folder_path)
-        print(f"Renamed {folder_path} to {new_folder_path}")
+        try:
+            new_folder_path = folder_path + '='
+            os.rename(folder_path, new_folder_path)
+            print(f"Renamed {folder_path} to {new_folder_path}")
+        except PermissionError as e:
+            print(f"Failed to rename {folder_path} due to permission error: {e}")
 
 def find_matching_folder(directory, base_name):
     for folder_name in os.listdir(directory):
@@ -49,6 +52,6 @@ def find_matching_folder(directory, base_name):
             return os.path.join(directory, folder_name)
     return None
 
-src_directory = r'e:\IO photo\날짜별'
-dst_directory = r'c:\Users\user\Desktop\환자별'
+src_directory = r'd:\IO photo\날짜별'
+dst_directory = r'c:\Users\KNUDH\Desktop\환자별'
 organize_folders(src_directory, dst_directory)
