@@ -53,5 +53,5 @@ def find_matching_folder(directory, base_name):
     return None
 
 src_directory = r'd:\IO photo\날짜별'
-dst_directory = r'c:\Users\KNUDH\Desktop\환자별'
+dst_directory = r'C:\Users\user\Desktop\환자별'
 organize_folders(src_directory, dst_directory)

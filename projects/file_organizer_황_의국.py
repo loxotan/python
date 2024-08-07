@@ -35,5 +35,5 @@ def copy_and_rename_files(source_dir, target_root):
 
 # 사용 예시
 source_dir = r'c:\Users\KNUDH\Desktop\날짜별'
-target_root = r'c:\Users\KNUDH\Desktop\황날짜별'
+target_root = r'C:\Users\user\Desktop\황날짜별'
 copy_and_rename_files(source_dir, target_root)
