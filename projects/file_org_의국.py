@@ -41,7 +41,6 @@ def organize_folders_by_patient(src_directory, dst_directory):
 
 # 날짜별로 파일을 정리하는 함수
 def organize_folders_by_date(source_dir, target_root):
-    
     for year in os.listdir(source_dir):
         year_path = os.path.join(source_dir, year)
         if os.path.isdir(year_path) and re.match(r"\d{4}", year):  # 연도 형식 확인
@@ -62,13 +61,13 @@ def organize_folders_by_date(source_dir, target_root):
                         if not os.path.exists(new_target_dir):
                             os.makedirs(new_target_dir)
                         
-                        target_path = os.path.join(new_target_dir, date_folder)
+                        target_path = os.path.join(new_target_dir, '최수영')
                         if not os.path.exists(target_path):
-                            shutil.copytree(date_folder_path, target_path)
+                            os.makedirs(target_path)  # '최수영' 폴더 생성
+                            shutil.copytree(date_folder_path, target_path, dirs_exist_ok=True)
 
                     except ValueError as e:
                         print(f"Skipping {date_folder} due to ValueError: {e}")
-
 
 
 # 폴더 이름에 '=' 추가하는 함수
