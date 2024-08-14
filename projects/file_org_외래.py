@@ -30,14 +30,28 @@ def organize_folders_by_patient(src_directory, dst_directory):
                 date_path = os.path.join(year_path, date_folder)
                 if os.path.isdir(date_path):
                     for item_folder in os.listdir(date_path):
+                        # item_folder에서 이름과 번호를 분리
                         name, number, _ = item_folder.rsplit(' ', 2)
                         dst_folder_name = f"{name} {number}"
                         dst_folder_path = os.path.join(dst_directory, dst_folder_name)
                         src_item_path = os.path.join(date_path, item_folder)
 
-                        if not os.path.exists(dst_folder_path):
-                            copy_contents(src_item_path, dst_folder_path)
-                            print(f"Copied contents from {src_item_path} to {dst_folder_path}")
+                        # 대상 폴더 경로 생성
+                        final_dst_path = os.path.join(dst_folder_path, item_folder)
+                        
+                        # 대상 폴더가 없다면 생성
+                        if not os.path.exists(final_dst_path):
+                            os.makedirs(final_dst_path)
+                        
+                        # 폴더 내 파일들을 대상 폴더로 복사
+                        for item in os.listdir(src_item_path):
+                            s = os.path.join(src_item_path, item)
+                            d = os.path.join(final_dst_path, item)
+                            if os.path.isdir(s):
+                                shutil.copytree(s, d)
+                            else:
+                                shutil.copy2(s, d)
+
 
 # 날짜별로 파일을 정리하는 함수
 def organize_folders_by_date(source_dir, target_root):
@@ -146,6 +160,7 @@ def main():
     rename_folders(src_directory)
     
     original = r'Z:\환자별'
+    hwang = r'y:\perio-photo\Photo (사진만.. 날짜 순대로 해주세요)'
 
     name_conflicts, number_conflicts = combine_and_check_duplicates(original, dst_directory)
 
@@ -156,7 +171,6 @@ def main():
     print("\nNumber conflicts (same number, one character different name):")
     for conflict in number_conflicts:
         print(conflict)
-
 
 
 if __name__ == "__main__":
