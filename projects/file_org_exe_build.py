@@ -45,12 +45,17 @@ def organize_folders_by_patient(src_directory, dst_directory):
     for year in os.listdir(src_directory):
         year_path = os.path.join(src_directory, year)
         if os.path.isdir(year_path) and re.match(r"\d{4}", year):
+                
             for date_folder in os.listdir(year_path):
-                if '-=' in date_folder or not date_folder.endswith('-'):
+                if '-=' in date_folder:
                     continue
                 date_path = os.path.join(year_path, date_folder)
                 if os.path.isdir(date_path):
                     for item_folder in os.listdir(date_path):
+                        # Check if item_folder is not a directory
+                        if not os.path.isdir(os.path.join(date_path, item_folder)):
+                            raise ValueError(f"Error: '{item_folder}' is a file, not a folder. Please check the source directory.")
+                        
                         # item_folder에서 이름과 번호를 분리
                         name, number, _ = item_folder.rsplit(' ', 2)
                         dst_folder_name = f"{name} {number}"
@@ -74,6 +79,7 @@ def organize_folders_by_patient(src_directory, dst_directory):
                                 shutil.copy2(s, d)
 
 
+
 # 날짜별로 파일을 정리하는 함수
 def organize_folders_by_date(source_dir, target_root, your_name):
     for year in os.listdir(source_dir):
@@ -83,7 +89,7 @@ def organize_folders_by_date(source_dir, target_root, your_name):
                 date_folder_path = os.path.join(year_path, date_folder)
                 
                 # '-'로 끝나지 않거나 '='로 끝나지 않는 폴더만 검사
-                if not date_folder.endswith('-=') and date_folder.endswith('-'):
+                if not date_folder.endswith('-='):
                     print(f"Checking directory: {date_folder}")
                     try:
                         # 날짜 파싱 시도
@@ -105,18 +111,20 @@ def organize_folders_by_date(source_dir, target_root, your_name):
                         print(f"Skipping {date_folder} due to ValueError: {e}")
 
 
-# 폴더 이름에 '=' 추가하는 함수
+# 폴더 이름에 '-=' 추가하는 함수
 def rename_folders(src_directory):
     for year in os.listdir(src_directory):
         year_path = os.path.join(src_directory, year)
         if os.path.isdir(year_path) and re.match(r"\d{4}", year):
             for date_folder in os.listdir(year_path):
-                if '-=' in date_folder or not date_folder.endswith('-'):
-                    continue
                 date_path = os.path.join(year_path, date_folder)
-                new_folder_path = date_path + '='
-                os.rename(date_path, new_folder_path)
-                print(f"Renamed {date_path} to {new_folder_path}")
+
+                # Check if the folder does not end with '-' or '-='
+                if not date_folder.endswith('-') and not date_folder.endswith('-='):
+                    new_folder_path = date_path + '-='
+                    os.rename(date_path, new_folder_path)
+                    print(f"Renamed {date_path} to {new_folder_path}")
+
 
 
 def is_one_char_diff(s1, s2):
@@ -172,36 +180,66 @@ def combine_and_check_duplicates(folder1, folder2):
 
 # 메인 함수
 def main():
-    your_name = input("당신의 이름을 입력하세요: ")
-    paths = load_paths()
+    try:
+        # Load existing paths and name from the JSON file
+        paths = load_paths()
 
-    src_directory = get_folder_path("원본 날짜별 폴더 선택", paths.get('src_directory', '/'))
-    dst_directory = get_folder_path("임시 환자별 폴더 선택", paths.get('dst_directory', '/'))
-    target_root = get_folder_path("서버 사진 폴더 선택", paths.get('target_root', '/'))
-    original = get_folder_path("환자별로 정리된 원본 폴더 선택", paths.get('original', '/'))
-    
+        # Ask if the user wants to change the current paths or name
+        change_paths_or_name = input("Do you want to change the current paths or name? (yes/no): ").strip().lower()
 
-    paths.update({
-        'src_directory': src_directory,
-        'dst_directory': dst_directory,
-        'target_root': target_root,
-        'original': original,
+        if change_paths_or_name == 'yes':
+            # Prompt for new paths if the user wants to change them
+            src_directory = get_folder_path("원본 날짜별 폴더 선택", paths.get('src_directory', '/'))
+            dst_directory = get_folder_path("임시 환자별 폴더 선택", paths.get('dst_directory', '/'))
+            target_root = get_folder_path("서버 사진 폴더 선택", paths.get('target_root', '/'))
+            original = get_folder_path("환자별로 정리된 원본 폴더 선택", paths.get('original', '/'))
+
+            # Prompt for a new name if the user wants to change it
+            your_name = input("당신의 이름을 입력하세요: ")
+
+            # Update paths and name with new selections
+            paths.update({
+                'src_directory': src_directory,
+                'dst_directory': dst_directory,
+                'target_root': target_root,
+                'original': original,
+                'your_name': your_name
+            })
+
+            # Save the updated paths and name
+            save_paths(paths)
+            print("Paths and name have been saved successfully to paths.json.")
         
-    })
-    save_paths(paths)
+        else:
+            # Use previously saved paths and name if the user doesn't want to change them
+            print("Using previously saved paths and name.")
+            your_name = paths.get('your_name', 'Default Name')  # Fallback to 'Default Name' if no name is found
 
-    organize_folders_by_patient(src_directory, dst_directory)
-    organize_folders_by_date(src_directory, target_root, your_name)
-    rename_folders(src_directory)
+        # Assign paths for further processing
+        src_directory = paths['src_directory']
+        dst_directory = paths['dst_directory']
+        target_root = paths['target_root']
+        original = paths['original']
 
-    name_conflicts, number_conflicts = combine_and_check_duplicates(original, dst_directory)
-    print("Name conflicts (same name, one digit different number):")
-    for conflict in name_conflicts:
-        print(conflict)
-    print("\nNumber conflicts (same number, one character different name):")
-    for conflict in number_conflicts:
-        print(conflict)
+        # Call the organizing and renaming functions
+        organize_folders_by_patient(src_directory, dst_directory)
+        organize_folders_by_date(src_directory, target_root, your_name)
+        rename_folders(src_directory)
 
+        # Check for conflicts and print them
+        name_conflicts, number_conflicts = combine_and_check_duplicates(original, dst_directory)
+        print("Name conflicts (same name, one digit different number):")
+        for conflict in name_conflicts:
+            print(conflict)
+        print("\nNumber conflicts (same number, one character different name):")
+        for conflict in number_conflicts:
+            print(conflict)
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    
+    finally:
+        input("Press Enter to exit...")
 
 if __name__ == "__main__":
     main()
