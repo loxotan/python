@@ -119,9 +119,13 @@ def rename_folders(src_directory):
             for date_folder in os.listdir(year_path):
                 date_path = os.path.join(year_path, date_folder)
 
-                # Check if the folder does not end with '-' or '-='
-                if not date_folder.endswith('-') and not date_folder.endswith('-='):
-                    new_folder_path = date_path + '-='
+                # Check if the folder does not end with '-='
+                if not date_folder.endswith('-='):
+                    # Create new folder name by adding '-=' to the folder name, not the path
+                    new_folder_name = date_folder + '-='
+                    new_folder_path = os.path.join(year_path, new_folder_name)
+
+                    # Rename the folder
                     os.rename(date_path, new_folder_path)
                     print(f"Renamed {date_path} to {new_folder_path}")
 
