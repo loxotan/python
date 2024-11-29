@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader
 import os
 from PIL import Image
 import glob
+import shutil
 
 # 디바이스 설정 (CPU 사용)
 device = torch.device("cpu")
@@ -34,9 +35,9 @@ class SimpleBinaryCNN(nn.Module):
         x = torch.max_pool2d(x, 2)
         x = torch.relu(self.conv2(x))
         x = torch.max_pool2d(x, 2)
-        x = x.view(-1, 64 * 14 * 14)
-        x = torch.relu(self.fc1)
-        x = torch.sigmoid(self.fc2(x))
+        x = x.view(-1, 64 * 14 * 14)  # Flatten the tensor for the fully connected layer
+        x = torch.relu(self.fc1(x))  # Correctly pass x to fc1 and then apply ReLU
+        x = torch.sigmoid(self.fc2(x))  # Correctly pass x to fc2 and then apply Sigmoid
         return x
 
 # 모델 로드
@@ -55,16 +56,32 @@ with torch.no_grad():
         outputs = model(image)
         predicted = (outputs > 0.5).float()
 
-        if predicted.item() == 1.0:
+        # 예측 결과 반전 (number_present와 number_absent가 바뀐 경우)
+        if predicted.item() == 0.0:
             detection_results["number_present"].append(image_path)
         else:
             detection_results["number_absent"].append(image_path)
 
-# 결과 출력
+# 결과 출력 및 이미지 이동
+number_present_dir = os.path.join(test_data_dir, 'number_present')
+number_absent_dir = os.path.join(test_data_dir, 'number_absent')
+
+# 폴더가 없으면 생성
+os.makedirs(number_present_dir, exist_ok=True)
+os.makedirs(number_absent_dir, exist_ok=True)
+
+# 이미지 이동
+for path in detection_results["number_present"]:
+    shutil.move(path, os.path.join(number_present_dir, os.path.basename(path)))
+
+for path in detection_results["number_absent"]:
+    shutil.move(path, os.path.join(number_absent_dir, os.path.basename(path)))
+
+# 최종 결과 출력
 print("Images with numbers:")
 for path in detection_results["number_present"]:
-    print(path)
+    print(os.path.join(number_present_dir, os.path.basename(path)))
 
 print("\nImages without numbers:")
 for path in detection_results["number_absent"]:
-    print(path)
+    print(os.path.join(number_absent_dir, os.path.basename(path)))

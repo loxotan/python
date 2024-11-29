@@ -50,4 +50,4 @@ if __name__ == "__main__":
     parse_ics_to_excel(ics_file, excel_file)
 
 #"C:\Users\user\Downloads\lodicaine@gmail.com.ical (3)\7f492564106b9c612167726dcce90d3a2d56178e89d3d76c7a798f7843ab6a5b@group.calendar.google.com.ics"
-#"C:\Users\user\Desktop\술식별\count.xlsx"
+#
