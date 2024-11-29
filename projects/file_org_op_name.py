@@ -13,7 +13,7 @@ def categorize(code):
         return "1. FO, GTR"
     elif code == "peri-implantitis":
         return "2. peri-implantitis"
-    elif code in ["GBR", "1st"]:
+    elif code in ["GBR", "1st", "sinus"]:
         return "3. GBR, impt"
     elif code in ["CL", "APF", "CTG", "FGG"]:
         return "4. CL, MGS"
