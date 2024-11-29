@@ -117,13 +117,13 @@ def organize(data, source_folder, directory_folder, last_update_date):
                 int(row.iloc[1])
             except ValueError:
                 continue
-
-            if isinstance(row.iloc[2], str):  # If C column is a name
-                unique_id = str(row.iloc[3])  # Use D column as unique ID
-                code = row.iloc[4]  # Use E column as code
-            elif isinstance(row.iloc[2], (int, float)):  # If C column is a number
+            
+            if isinstance(row.iloc[2], (int, float)):  # If C column is a number
                 unique_id = str(row.iloc[4])  # Use E column as unique ID
                 code = row.iloc[5]  # Use F column as code
+            elif isinstance(row.iloc[2], str):  # If C column is a name
+                unique_id = str(row.iloc[3])  # Use D column as unique ID
+                code = row.iloc[4]  # Use E column as code
             else:
                 continue
 
@@ -137,23 +137,22 @@ def organize(data, source_folder, directory_folder, last_update_date):
             if not os.path.exists(target_folder_path):
                 os.makedirs(target_folder_path)
 
-            if copying_folder is None:
-                print(f"{unique_id} 을 찾을 수 없습니다")
-                continue
-
             # Define new_folder_path after verifying copying_folder exists
             new_folder_name = f"{str(row.iloc[0])[:4]}_{row.iloc[1]}_{os.path.basename(copying_folder)}"
             new_folder_path = os.path.join(target_folder_path, new_folder_name)
 
             # Skip if target already contains the folder
             # Check if a folder with the same unique ID already exists in the target folder
-            existing_folders = glob.glob(os.path.join(target_folder_path, f'*{unique_id}*'))
+            existing_folders = []
+            for category in ['1. FO, GTR', '2. peri-implantitis', '3. GBR, impt', '4. CL, MGS', '5. etc']:
+                category_path = os.path.join(directory_folder, category)
+                existing_folders += glob.glob(os.path.join(category_path, f'*{unique_id}*'))
+            
             if existing_folders:
                 continue
-
-            open_folder(copying_folder)
-
+            
             shutil.copytree(copying_folder, new_folder_path)
+            open_folder(new_folder_path)
 
             print(f"{os.path.basename(copying_folder)} 폴더가 {target_folder_name} 폴더로 이동")
         except KeyError as e:
