@@ -169,10 +169,10 @@ def update_last_update_date(directory_folder):
     print("last_update.json 파일이 오늘 날짜로 업데이트되었습니다.")
 
 # Paths
-file_path = r"C:\Users\user\Desktop\술식별\count.xlsx"
-source_folder = r"Y:\환자별"
-directory_folder = r"C:\Users\user\Desktop\술식별"
-date_organized_folder = r"E:\IO photo\날짜별"
+file_path = r"C:\Users\최수영\Desktop\술식별\count.xlsx"
+source_folder = r"C:\Users\최수영\Desktop\환자별"
+directory_folder = r"C:\Users\최수영\Desktop\술식별"
+date_organized_folder = r"D:\IO photo\날짜별"
 
 # Load data
 data = pd.read_excel(file_path)
