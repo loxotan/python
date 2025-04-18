@@ -44,39 +44,59 @@ def copy_contents(src, dst):
 def organize_folders_by_patient(src_directory, dst_directory):
     for year in os.listdir(src_directory):
         year_path = os.path.join(src_directory, year)
-        if os.path.isdir(year_path) and re.match(r"\d{4}", year):
-                
-            for date_folder in os.listdir(year_path):
-                if '-=' in date_folder:
-                    continue
-                date_path = os.path.join(year_path, date_folder)
-                if os.path.isdir(date_path):
-                    for item_folder in os.listdir(date_path):
-                        # Check if item_folder is not a directory
-                        if not os.path.isdir(os.path.join(date_path, item_folder)):
-                            raise ValueError(f"Error: '{item_folder}' is a file, not a folder. Please check the source directory.")
-                        
-                        # item_folder에서 이름과 번호를 분리
-                        name, number, _ = item_folder.rsplit(' ', 2)
-                        dst_folder_name = f"{name} {number}"
-                        dst_folder_path = os.path.join(dst_directory, dst_folder_name)
-                        src_item_path = os.path.join(date_path, item_folder)
+        if not (os.path.isdir(year_path) and re.match(r"\d{4}$", year)):
+            continue
 
-                        # 대상 폴더 경로 생성
-                        final_dst_path = os.path.join(dst_folder_path, item_folder)
-                        
-                        # 대상 폴더가 없다면 생성
-                        if not os.path.exists(final_dst_path):
-                            os.makedirs(final_dst_path)
-                        
-                        # 폴더 내 파일들을 대상 폴더로 복사
-                        for item in os.listdir(src_item_path):
-                            s = os.path.join(src_item_path, item)
-                            d = os.path.join(final_dst_path, item)
-                            if os.path.isdir(s):
-                                shutil.copytree(s, d)
-                            else:
-                                shutil.copy2(s, d)
+        for date_folder in os.listdir(year_path):
+            if '-=' in date_folder:
+                continue
+            date_path = os.path.join(year_path, date_folder)
+            if not os.path.isdir(date_path):
+                continue
+
+            # 날짜 문자열 추출 (YYYY-MM-DD)
+            try:
+                date_str = datetime.strptime(date_folder[:10], '%Y-%m-%d').strftime('%Y-%m-%d')
+            except ValueError:
+                # 날짜 파싱 실패 시 폴더명 전체를 사용
+                date_str = date_folder
+
+            for item_folder in os.listdir(date_path):
+                orig_item_path = os.path.join(date_path, item_folder)
+                if not os.path.isdir(orig_item_path):
+                    raise ValueError(f"Error: '{item_folder}' is a file, not a folder. Please check the source directory.")
+
+                # name, number, _ 로 나눌 수 있는지 시도
+                parts = item_folder.rsplit(' ', 2)
+                if len(parts) == 3:
+                    name, number, _ = parts
+                    new_folder_name = item_folder
+                    src_item_path = orig_item_path
+                else:
+                    # 이름과 번호만 있는 경우
+                    name, number = item_folder.rsplit(' ', 1)
+                    # 새 폴더명: "name number YYYY-MM-DD"
+                    new_folder_name = f"{name} {number} {date_str}"
+                    new_src_item_path = os.path.join(date_path, new_folder_name)
+                    os.rename(orig_item_path, new_src_item_path)
+                    src_item_path = new_src_item_path
+
+                # 환자별 폴더 (name + number)
+                dst_folder_name = f"{name} {number}"
+                dst_folder_path = os.path.join(dst_directory, dst_folder_name)
+
+                # 최종 복사 경로: 환자별 폴더 안에 new_folder_name
+                final_dst_path = os.path.join(dst_folder_path, new_folder_name)
+                os.makedirs(final_dst_path, exist_ok=True)
+
+                # 내부 파일/폴더 복사
+                for entry in os.listdir(src_item_path):
+                    s = os.path.join(src_item_path, entry)
+                    d = os.path.join(final_dst_path, entry)
+                    if os.path.isdir(s):
+                        shutil.copytree(s, d, dirs_exist_ok=True)
+                    else:
+                        shutil.copy2(s, d)
 
 
 
