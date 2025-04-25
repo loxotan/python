@@ -202,6 +202,30 @@ def combine_and_check_duplicates(folder1, folder2):
     return name_conflicts, number_conflicts
 
 
+def debug(src_directory, dst_directory, target_root, original, your_name):
+    try:
+        # 1) 환자별 정리
+        organize_folders_by_patient(src_directory, dst_directory)
+        # 2) 날짜별 정리
+        organize_folders_by_date(src_directory, target_root, your_name)
+        # 3) '-=' 폴더명 추가
+        rename_folders(src_directory)
+        # 4) 중복 검사
+        name_conflicts, number_conflicts = combine_and_check_duplicates(original, dst_directory)
+        # 결과 출력
+        print("=== Name conflicts (이름 동일, 번호 한 자리 차이) ===")
+        for c in name_conflicts:
+            print(c)
+        print("\n=== Number conflicts (번호 동일, 이름 한 글자 차이) ===")
+        for c in number_conflicts:
+            print(c)
+        return name_conflicts, number_conflicts
+
+    except Exception as e:
+        print(f"[DEBUG ERROR] {e}")
+        raise
+
+
 # 메인 함수
 def main():
     try:
@@ -264,6 +288,7 @@ def main():
     
     finally:
         input("Press Enter to exit...")
+
 
 if __name__ == "__main__":
     main()
