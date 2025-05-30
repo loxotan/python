@@ -156,7 +156,7 @@ if __name__ == '__main__':
     file_path = r"C:\Users\최수영\Desktop\술식별\count.xlsx"
     source_folder = r"Z:\환자별"
     directory_folder = r"C:\Users\최수영\Desktop\술식별"
-    date_organized_folder = r"D:\IO photo\날짜별"
+    date_organized_folder = r"E:\IO photo\날짜별"
 
     data = pd.read_excel(file_path, dtype=str)
     last_update_file = os.path.join(directory_folder, 'last_update.json')
