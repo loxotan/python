@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['C:\\github\\python\\projects\\file_org_op_name.py'],
+    ['C:\\Users\\최수영\\Documents\\python\\python\\projects\\file_org_op_name.py'],
     pathex=[],
     binaries=[],
     datas=[],
