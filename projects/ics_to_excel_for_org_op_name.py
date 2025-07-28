@@ -39,6 +39,13 @@ def parse_ics_to_excel(ics_file_path, excel_file_path):
     # 데이터프레임 생성 및 엑셀로 변환
     df = pd.DataFrame(data)
     df.columns = ['Date'] + [f'Summary_Part_{i+1}' for i in range(df.shape[1] - 1)]
+    
+    # 날짜 기준으로 정렬
+    df['Date'] = pd.to_datetime(df['Date'])  # 문자열을 datetime으로 변환
+    today = datetime.today().date()
+    df = df[df['Date'].dt.date <= today]     # 오늘 이후 날짜 제외
+    df = df.sort_values(by='Date')          # 날짜 오름차순 정렬
+    
     df.to_excel(excel_file_path, index=False, engine='openpyxl')
     
     print(f"엑셀 파일이 '{excel_file_path}'에 저장되었습니다.")
