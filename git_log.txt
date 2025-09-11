@@ -1,0 +1,28 @@
+--- GIT STATUS --- 
+On branch main
+Your branch is ahead of 'origin/main' by 6 commits.
+  (use "git push" to publish your local commits)
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	git_log.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+ 
+--- GIT REMOTE -V --- 
+origin	https://github.com/loxotan/python.git (fetch)
+origin	https://github.com/loxotan/python.git (push)
+ 
+--- GIT PUSH (ATTEMPT) ---         
+
+C:\python>git push
+Enumerating objects: 137, done.
+Counting objects: 100% (137/137), done.
+Delta compression using up to 6 threads
+Compressing objects: 100% (123/123), done.
+error: RPC failed; HTTP 408 curl 22 The requested URL returned error: 408
+send-pack: unexpected disconnect while reading sideband packet
+Writing objects: 100% (128/128), 1.65 GiB | 16.85 MiB/s, done.
+Total 128 (delta 50), reused 0 (delta 0), pack-reused 0 (from 0)
+fatal: the remote end hung up unexpectedly
+Everything up-to-date

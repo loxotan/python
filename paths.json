@@ -1,7 +1,33 @@
 {
-    "source_dir": "C:/Users/\ucd5c\uc218\uc601/Desktop/\uc6d0\ubcf8/DCIM/103D7500",
-    "dest_dir": "C:/Users/\ucd5c\uc218\uc601/Desktop/\ud658\uc790\ubcc4",
-    "date_dest_dir": "C:/Users/\ucd5c\uc218\uc601/Desktop/\ub0a0\uc9dc\ubcc4",
-    "last_organizing_timestamp": 1753351924.019846,
-    "organizer_name": "\ucd5c\uc218\uc601"
+    "current_profile": "경북대 치주과",
+    "profiles": {
+        "경북대 치주과": {
+            "source_dir": "C:/Users/최수영/Desktop/temp",
+            "dest_dir": "Y:/perio-photo/Photo (사진만.. 날짜 순대로 해주세요)/최수영 환자",
+            "date_dest_dir": "Y:/perio-photo/Photo (사진만.. 날짜 순대로 해주세요)",
+            "organizer_name": "최수영",
+            "last_organizing_timestamp": 1757549309.506443,
+            "last_sync_timestamp": 0.0,
+            "folder_structure": [
+                {
+                    "format": "%Y년도"
+                },
+                {
+                    "format": "%m월"
+                },
+                {
+                    "format": "%Y.%m.%d ({weekday})"
+                },
+                {
+                    "format": "{organizer_name}"
+                },
+                {
+                    "format": "{patient_folder_name}"
+                }
+            ],
+            "file_naming_format": "%Y-%m-%d {original_name}",
+            "organize_by_patient": true,
+            "organize_by_date": true
+        }
+    }
 }
