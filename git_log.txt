@@ -16,13 +16,39 @@ origin	https://github.com/loxotan/python.git (push)
 --- GIT PUSH (ATTEMPT) ---         
 
 C:\python>git push
-Enumerating objects: 137, done.
-Counting objects: 100% (137/137), done.
+Enumerating objects: 64, done.
+Counting objects: 100% (64/64), done.
 Delta compression using up to 6 threads
-Compressing objects: 100% (123/123), done.
-error: RPC failed; HTTP 408 curl 22 The requested URL returned error: 408
-send-pack: unexpected disconnect while reading sideband packet
-Writing objects: 100% (128/128), 1.65 GiB | 16.85 MiB/s, done.
-Total 128 (delta 50), reused 0 (delta 0), pack-reused 0 (from 0)
-fatal: the remote end hung up unexpectedly
-Everything up-to-date
+Compressing objects: 100% (58/58), done.
+Writing objects: 100% (58/58), 637.57 KiB | 10.28 MiB/s, done.
+Total 58 (delta 16), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (16/16), completed with 3 local objects.
+remote: error: GH013: Repository rule violations found for refs/heads/main.
+remote: 
+remote: - GITHUB PUSH PROTECTION
+remote:   —————————————————————————————————————————
+remote:     Resolve the following violations before pushing again
+remote:
+remote:     - Push cannot contain secrets
+remote:
+remote:
+remote:      (?) Learn how to resolve a blocked push
+remote:      https://docs.github.com/code-security/secret-scanning/working-with-secret-scanning-and-push-protection/working-with-push-protection-from-the-command-line#resolving-a-blocked-push
+remote:
+remote:      (?) This repository does not have Secret Scanning enabled, but is eligible. Enable Secret Scanning to view and manage detected secrets.
+remote:      Visit the repository settings page, https://github.com/loxotan/python/settings/security_analysis
+remote:
+remote:
+remote:       —— OpenAI API Key ————————————————————————————————————
+remote:        locations:
+remote:          - commit: 0dc64088e6af77817acac2ba07f035789e7d52d9
+remote:            path: settings.json:3
+remote:
+remote:        (?) To push, remove secret from commit(s) or follow this URL to allow the secret.
+remote:        https://github.com/loxotan/python/security/secret-scanning/unblock-secret/32XAFkO6UpvZTGc19Ak3K7Kd8ph
+remote:
+remote:
+remote:
+To https://github.com/loxotan/python.git
+ ! [remote rejected] main -> main (push declined due to repository rule violations)
+error: failed to push some refs to 'https://github.com/loxotan/python.git'
