@@ -64,7 +64,7 @@ class SettingsDialog(tk.Toplevel):
     def __init__(self, parent, current_structure, current_file_format, save_callback):
         super().__init__(parent)
         self.title("Settings")
-        self.geometry("600x600")
+        self.geometry("600x650")
         self.transient(parent)
         self.grab_set()
 
@@ -373,7 +373,7 @@ class PhotoOrganizerApp:
             'last_organizing_timestamp': 0.0,
             'last_sync_timestamp': 0.0,
             'folder_structure': [{'format': '%Y년도'}, {'format': '%m월'}, {'format': '%Y.%m.%d ({weekday})'}, {'format': '{organizer_name}'}, {'format': '{patient_folder_name}'}],
-            'file_naming_format': "%Y-%m-%d_{original_name}",
+            'file_naming_format': "%Y-%m-%d {original_name}",
             'organize_by_patient': True,
             'organize_by_date': True
         }
