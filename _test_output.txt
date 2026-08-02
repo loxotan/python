@@ -1,0 +1,44 @@
+
+INPUT : 오늘 분위기 좋은 노포 곱창전골집에서 애인이랑 소주 한잔 했음  rating=5
+  category     : 음식
+  subcategories: ['한식', '전골', '내장요리', '주류', '한국술']
+  object_tags  : ['곱창전골', '곱창', '내장', '소주']
+  sensory_tags : ['진한맛', '뜨끈함', '국물', '쓴맛']
+  context_tags : ['술자리']
+  social_tags  : ['애인']
+  place_tags   : ['노포']
+  combined     : ['곱창전골', '곱창', '내장', '소주', '진한맛', '뜨끈함', '국물', '쓴맛', '술자리', '애인', '노포']
+  confidence   : 0.9  signal: 긍정적인 선호로 보입니다.
+
+INPUT : 국밥 혼자 먹었는데 진한 국물이 너무 맛있었다  rating=5
+  category     : 음식
+  subcategories: ['한식']
+  object_tags  : ['국밥']
+  sensory_tags : ['진한맛', '뜨끈함', '국물', '맛있음']
+  context_tags : []
+  social_tags  : ['혼자']
+  place_tags   : []
+  combined     : ['국밥', '진한맛', '뜨끈함', '국물', '맛있음', '혼자']
+  confidence   : 0.7  signal: 긍정적인 선호로 보입니다.
+
+INPUT : 젤다 야숨 다시 하는중 왕눈보다 재밌는듯  rating=4
+  category     : 게임
+  subcategories: ['어드벤처', '닌텐도']
+  object_tags  : ['젤다', '야숨', '왕눈']
+  sensory_tags : []
+  context_tags : []
+  social_tags  : []
+  place_tags   : []
+  combined     : ['젤다', '야숨', '왕눈']
+  confidence   : 0.5  signal: 긍정적인 선호로 보입니다.
+
+INPUT : 병원 가기 싫다  rating=1
+  category     : 장소
+  subcategories: []
+  object_tags  : []
+  sensory_tags : []
+  context_tags : []
+  social_tags  : []
+  place_tags   : ['병원']
+  combined     : ['병원']
+  confidence   : 0.5  signal: 부정적인 선호로 보입니다.

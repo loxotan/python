@@ -1,0 +1,11 @@
+primary_category   : 음식
+context_categories : ['장소', '관계']
+subcategories      : ['한식', '전골', '내장요리', '주류', '한국술']
+object_tags        : ['곱창전골', '곱창', '전골', '내장', '소주']
+sensory_tags       : ['진한맛', '뜨끈함', '국물', '쓴맛']
+context_tags       : ['술자리']
+social_tags        : ['애인']
+place_tags         : ['노포']
+tags (combined)    : ['곱창전골', '곱창', '전골', '내장', '소주', '진한맛', '뜨끈함', '국물', '쓴맛', '술자리', '애인', '노포']
+confidence         : 0.9
+signal             : 긍정적인 선호로 보입니다.
